@@ -3,8 +3,8 @@ Express (vs Flask)
 React
 Attractiveness
 
-What are our goals for this? 
-Pleasing looks, presentable, portfoilio-ready, curb-appeal 
+What are our goals for this?
+Pleasing looks, presentable, portfoilio-ready, curb-appeal
 
 
 Pix.ly: Image lighttable / editor»
@@ -23,7 +23,7 @@ Styled like poloroid?
 Spread the stack out instead of a simple grid?
 
 
-~~ cool things / nice to haves ~~
+ cool things / nice to haves  (probably choose ONE)
 
 ## Image Data
 System will retrieve metadata from the photo (location of photo, model of camera, etc) and store it into the database (you’ll need to learn how to read the metadata from photos)
