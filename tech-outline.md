@@ -1,23 +1,18 @@
 Menu of tech's
 
 
- python
-vanilla js
-
-
 ### Backend
 flask (does this serve json or html?)
-psql? for storing paths to pictures and information about them?
-(try to stay away from psql if you can help it by customizing requests from s3 directly)
+psql -> Store metadata and data about images and WHERE the images are stored in S3
 
 
 #### Storage
-S3 for images
+S3 for images -> Serves image to whoever requested the source url DEPENDING ON S3 SETTINGS!
 
 
 ### Frontend
-js
-jquery 
+JS/jQuery -> Incorporate TS?
+React -> Incorporate TS?
 
 
 #### Presentation
