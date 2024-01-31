@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-# import boto3
+import boto3
 from flask import Flask, redirect, render_template
 from flask_debugtoolbar import DebugToolbarExtension
 
