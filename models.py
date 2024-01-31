@@ -32,8 +32,8 @@ class Photo(db.Model):
 
     active = db.Column(
         db.Boolean,
-        default=True,
-        nullable=False
+        nullable=False,
+        default=True, #TODO: Why doesn't this recognize default value?
     )
 
     # s3_thumbnail_url = db.Column(
