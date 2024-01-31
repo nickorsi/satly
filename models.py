@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 class Photo(db.Model):
     """ Photos model """
 
@@ -43,7 +44,6 @@ class Photo(db.Model):
     # exif_data = db.Column(
     #     db.String(1000)
     # )
-
 
 
 def connect_db(app):
