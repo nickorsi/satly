@@ -7,4 +7,27 @@
       src="{{ photo.s3_photo_url }}"
       alt="photo of {{ photo.s3_photo_url }}"/>
   </div>
+  <button id="edit-button">Edit</button>
+  <form style="visibility: hidden">
+    <label for="title">Title: </label>
+    <input name="title" id="title" placeholder="title">
+  </form>
 {% endblock %}
+
+
+
+{# Could use to put in JS later #}
+{# {% block base_js %}
+  <script>
+      "use strict";
+
+      document.getElementById("edit-button").onclick(function(e) {
+        console.log("show the form please");
+        e.target.style(visibility = visible);
+      })
+
+      console.log("hello from script.js");
+  </script>
+
+{% endblock %} #}
+
