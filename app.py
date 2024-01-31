@@ -62,7 +62,14 @@ def photos():
 def photo(photo_id):
     """Display active individual photo"""
 
-    photo = Photo.query.filter(active=True).get_or_404(photo_id)
+    photo = Photo.query.get_or_404(photo_id)
 
-    return render_template("Photo", photo=photo)  # TODO: Add template name
+    if photo.active:
+        return render_template("photo.html", photo=photo)
+
+    return render_template("notfound.html")
+
+
+
+# @app.routes("/photos/<int:photo>/edit")
 
