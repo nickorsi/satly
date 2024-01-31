@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+    <h1>Look at these salty photos.</h1>
+    {% for photo in photos %}
+        <div>
+            <h2>{{ photo.title }}</h2>
+            <img
+                src="{{ photo.s3_photo_url }}"
+                alt="photo of {{ photo.s3_photo_url }}"/>
+        </div>
+
+    {% endfor %}
+
+  {% endblock %}
