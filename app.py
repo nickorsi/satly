@@ -10,11 +10,12 @@ load_dotenv()
 
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+S3_BUCKET = os.environ['S3_BUCKET']
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = AWS_SECRET_ACCESS_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-"DATABASE_URL", 'postgresql:///saltly')
+    "DATABASE_URL", 'postgresql:///saltly')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 connect_db(app)
@@ -31,11 +32,38 @@ s3 = boto3.client(
     aws_access_key_id=AWS_ACCESS_KEY_ID,
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
 )
-# Uploading a file
+# Uploading a file, WILL REPLACE/OVERWRITE IF SAME OBJECT KEY NAME
 s3.upload_file(
     './static/Konica_Minolta_DiMAGE_Z3.jpg',
-    'saltly',    # or saltly-bucket
+    S3_BUCKET,    # or saltly-bucket
     'Konica_Minolta_DiMAGE_Z3.jpg'
 )
 
 # Get URL in S3, which will be BASE_URL + the object key (filename)
+
+
+@app.get("/")
+def home():
+    """Displays homepage"""
+
+    return render_template("HOMEPAGE TEMPLATE")  # TODO: Add template name
+
+
+@app.get("/photos")
+def photos():
+    """Displays all active photos"""
+
+    photos = Photo.query.filter_by(active=True).all()
+
+    # TODO: Add template name
+    return render_template("PHOTOS PAGE", photos=photos)
+
+
+@app.get("/photos/<int:photo_id>")
+def photo(photo_id):
+    """Display active individual photo"""
+
+    photo = Photo.query.filter(active=True).get_or_404(photo_id)
+
+    return render_template("Photo", photo=photo)  # TODO: Add template name
+

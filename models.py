@@ -29,6 +29,12 @@ class Photo(db.Model):
         nullable=False
     )
 
+    active = db.Column(
+        db.Boolean,
+        default=True,
+        nullable=False
+    )
+
     # s3_thumbnail_url = db.Column(
     #     db.String(700),
     #     nullable=False
