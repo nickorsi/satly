@@ -11,7 +11,7 @@ Pix.ly: Image lighttable / editor»
 
 (Login/authentication isn’t required; any web user can do everything)
 
-A1 Images themselves are stored to Amazon S3, not in the database
+-A1 Images themselves are stored to Amazon S3, not in the database
 
 A2 Users can add a JPG photo using an upload form and picking a file on their computer (you’ll need to learn how to allow image uploads!)
 
