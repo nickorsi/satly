@@ -5,9 +5,11 @@
     {% for photo in photos %}
         <div>
             <h2>{{ photo.title }}</h2>
-            <img
-                src="{{ photo.s3_photo_url }}"
-                alt="photo of {{ photo.s3_photo_url }}"/>
+            <a href="/photos/{{photo.id}}">
+              <img
+                  src="{{ photo.s3_photo_url }}"
+                  alt="photo of {{ photo.s3_photo_url }}"/>
+            </a>
         </div>
 
     {% endfor %}
