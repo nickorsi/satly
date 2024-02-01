@@ -43,6 +43,21 @@ debug = DebugToolbarExtension(app)
 
 # Get URL in S3, which will be BASE_URL + the object key (filename)
 
+def upload(request):
+    form = AddPhotoForm(request.POST)
+    if form.file.data:
+        file_data = request.FILES[form.image.name].read()
+
+        s3 = boto3.client(
+            "s3",
+            "us-west-1",
+            aws_access_key_id=AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+        )
+
+        s3.upload_file(file_data, S3_BUCKET, form.file.data)
+        # open(os.path.join(UPLOAD_PATH, form.file.data), 'w').write(file_data)
+
 
 @app.get("/")
 def home():
@@ -80,15 +95,10 @@ def add_photo():
     form = AddPhotoForm()
 
     if form.validate_on_submit():
+        print(form.file)
+        breakpoint()
 
-        s3 = boto3.client(
-            "s3",
-            "us-west-1",
-            aws_access_key_id=AWS_ACCESS_KEY_ID,
-            aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-        )
-
-        s3.upload_file(form.file.data, S3_BUCKET, form.file.data)
+        upload()
 
         new_photo = Photo(
             title=form.title.data,
