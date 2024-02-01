@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 import boto3
-from flask import Flask, redirect, request, render_template
+from flask import Flask, redirect, flash, render_template
 from flask_debugtoolbar import DebugToolbarExtension
 from forms import AddPhotoForm
 
@@ -77,6 +77,8 @@ def add_photo():
             form.file.data.filename
         )
 
+        os.remove(f'./staging/{form.file.data.filename}')
+
         new_photo = Photo(
             title=form.title.data,
             caption=form.caption.data,
@@ -86,8 +88,12 @@ def add_photo():
         db.session.add(new_photo)
         db.session.commit()
 
+        flash("Added successfuly!", "success")
+
+        return redirect('/photos')
+
         # TODO: error handling?
         # TODO: Redirect back to photos with flashed message
-        # TODO: Avoid local storage saving? Or just immediately delete?
+        # TODO: Way to upload image directly to S3 and avoid store/delete locally?
 
     return render_template("add_photo.html", form=form)
