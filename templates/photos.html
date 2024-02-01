@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
 
   {% block content %}
-    <h1>Look at these salty photos.</h1>
-    {% for photo in photos %}
-        <div>
-            <h2>{{ photo.title }}</h2>
-            <a href="/photos/{{photo.id}}">
-              <img
-                  src="{{ photo.s3_photo_url }}"
-                  alt="photo of {{ photo.s3_photo_url }}"/>
-            </a>
-        </div>
+    <h1 class="text-center">Look at these salty photos.</h1>
+    <div class="row">
+      {% for photo in photos %}
+          <div class="photo-container col-3">
+              <a class="photo-link" href="/photos/{{photo.id}}">
+                <img class="photo"
+                    src="{{ photo.s3_photo_url }}"
+                    alt="photo of {{ photo.s3_photo_url }}"/>
+              </a>
+          </div>
 
-    {% endfor %}
+      {% endfor %}
+    </div>
 
   {% endblock %}
