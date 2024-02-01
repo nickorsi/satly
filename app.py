@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 import boto3
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, request, render_template
 from flask_debugtoolbar import DebugToolbarExtension
 from forms import AddPhotoForm
 
@@ -95,7 +95,7 @@ def add_photo():
     form = AddPhotoForm()
 
     if form.validate_on_submit():
-        print(form.file)
+        print(form.file.data, request.files['file'])
         breakpoint()
 
         upload()
