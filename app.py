@@ -25,40 +25,6 @@ connect_db(app)
 app.debug = True  # False to turn off FDT
 debug = DebugToolbarExtension(app)
 
-
-# trying to test boto3. ... fn to get object here.
-
-# s3 = boto3.client(
-#     "s3",
-#     "us-west-1",
-#     aws_access_key_id=AWS_ACCESS_KEY_ID,
-#     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-# )
-# Uploading a file, WILL REPLACE/OVERWRITE IF SAME OBJECT KEY NAME
-# s3.upload_file(
-#     './static/Konica_Minolta_DiMAGE_Z3.jpg',
-#     S3_BUCKET,    # or saltly-bucket
-#     'Konica_Minolta_DiMAGE_Z3.jpg'
-# )
-
-# Get URL in S3, which will be BASE_URL + the object key (filename)
-
-def upload(request):
-    form = AddPhotoForm(request.POST)
-    if form.file.data:
-        file_data = request.FILES[form.image.name].read()
-
-        s3 = boto3.client(
-            "s3",
-            "us-west-1",
-            aws_access_key_id=AWS_ACCESS_KEY_ID,
-            aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-        )
-
-        s3.upload_file(file_data, S3_BUCKET, form.file.data)
-        # open(os.path.join(UPLOAD_PATH, form.file.data), 'w').write(file_data)
-
-
 @app.get("/")
 def home():
     """Displays homepage"""
@@ -95,24 +61,33 @@ def add_photo():
     form = AddPhotoForm()
 
     if form.validate_on_submit():
-        print(form.file.data, request.files['file'])
-        breakpoint()
+        form.file.data.save(f'./staging/{form.file.data.filename}')
 
-        upload()
+        s3 = boto3.client(
+            "s3",
+            "us-west-1",
+            aws_access_key_id=AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+        )
+
+        # Uploading a file, WILL REPLACE/OVERWRITE IF SAME OBJECT KEY NAME
+        s3.upload_file(
+            f'./staging/{form.file.data.filename}',
+            S3_BUCKET,    # or saltly-bucket
+            form.file.data.filename
+        )
 
         new_photo = Photo(
             title=form.title.data,
             caption=form.caption.data,
             active=True,
-            # s3_photo_url=form.file.data
-            s3_photo_url=f'{BASE_URL}/{form.file.data}'
+            s3_photo_url=f'{BASE_URL}/{form.file.data.filename}'
         )
-        # file gives a string of the filename
-        #
-        db.add(new_photo)
-        db.commit()
-        # Add photo to S3, can this return an error???
-        # Add to db via ORM
-        # Redirect back to photos with flashed message
+        db.session.add(new_photo)
+        db.session.commit()
+
+        # TODO: error handling?
+        # TODO: Redirect back to photos with flashed message
+        # TODO: Avoid local storage saving? Or just immediately delete?
 
     return render_template("add_photo.html", form=form)
