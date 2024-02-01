@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import boto3
 from flask import Flask, redirect, render_template
 from flask_debugtoolbar import DebugToolbarExtension
+from forms import AddPhotoForm
 
 from models import db, connect_db, Photo
 
@@ -53,7 +54,7 @@ def home():
 def photos():
     """Displays all active photos"""
 
-    photos = Photo.query.filter_by(active=True).all()
+    photos = Photo.query.filter_by(active=True).all() #TODO: Organize by newest? By descending ID or a timestamp?
 
     return render_template("photos.html", photos=photos)
 
@@ -71,5 +72,20 @@ def photo(photo_id):
 
 
 
-# @app.routes("/photos/<int:photo>/edit")
+@app.route("/addphoto", method=["GET", "POST"])
+def add_photo():
+    """Displays and hadles add photo form"""
 
+    form = AddPhotoForm()
+
+    if form.validate_on_submit():
+        # Gather all form info
+        title = form.title.data
+        caption = form.caption.data
+        file = form.file.data
+        print(file)
+        # Add photo to S3, can this return an error???
+        # Add to db via ORM
+        # Redirect back to photos with flashed message
+
+    return render_template("add_photo.html", form=form)
