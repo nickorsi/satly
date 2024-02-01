@@ -12,6 +12,7 @@ load_dotenv()
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 S3_BUCKET = os.environ['S3_BUCKET']
+BASE_URL = f'https://{S3_BUCKET}.s3.us-west-1.amazonaws.com'
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = AWS_SECRET_ACCESS_KEY
@@ -54,7 +55,8 @@ def home():
 def photos():
     """Displays all active photos"""
 
-    photos = Photo.query.filter_by(active=True).all() #TODO: Organize by newest? By descending ID or a timestamp?
+    photos = Photo.query.filter_by(active=True).all()
+    # TODO: Organize by newest? By descending ID or a timestamp?
 
     return render_template("photos.html", photos=photos)
 
@@ -71,19 +73,34 @@ def photo(photo_id):
     return render_template("notfound.html")
 
 
-
-@app.route("/addphoto", method=["GET", "POST"])
+@app.route("/addphoto", methods=["GET", "POST"])
 def add_photo():
     """Displays and hadles add photo form"""
 
     form = AddPhotoForm()
 
     if form.validate_on_submit():
-        # Gather all form info
-        title = form.title.data
-        caption = form.caption.data
-        file = form.file.data
-        print(file)
+
+        s3 = boto3.client(
+            "s3",
+            "us-west-1",
+            aws_access_key_id=AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+        )
+
+        s3.upload_file(form.file.data, S3_BUCKET, form.file.data)
+
+        new_photo = Photo(
+            title=form.title.data,
+            caption=form.caption.data,
+            active=True,
+            # s3_photo_url=form.file.data
+            s3_photo_url=f'{BASE_URL}/{form.file.data}'
+        )
+        # file gives a string of the filename
+        #
+        db.add(new_photo)
+        db.commit()
         # Add photo to S3, can this return an error???
         # Add to db via ORM
         # Redirect back to photos with flashed message
