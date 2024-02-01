@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import boto3
 from flask import Flask, redirect, flash, render_template
 from flask_debugtoolbar import DebugToolbarExtension
-from forms import AddPhotoForm
+from forms import AddPhotoForm, EditPhotoForm
 
 from models import db, connect_db, Photo
 
@@ -24,6 +24,7 @@ connect_db(app)
 
 app.debug = True  # False to turn off FDT
 debug = DebugToolbarExtension(app)
+
 
 @app.get("/")
 def home():
@@ -46,10 +47,11 @@ def photos():
 def photo(photo_id):
     """Display active individual photo"""
 
+    form = EditPhotoForm()
     photo = Photo.query.get_or_404(photo_id)
 
     if photo.active:
-        return render_template("photo.html", photo=photo)
+        return render_template("photo.html", photo=photo, form=form)
 
     return render_template("notfound.html")
 
@@ -83,7 +85,9 @@ def add_photo():
             title=form.title.data,
             caption=form.caption.data,
             active=True,
-            s3_photo_url=f'{BASE_URL}/{form.file.data.filename}'
+            edited=False,
+            s3_photo_url_orig=f'{BASE_URL}/{form.file.data.filename}',
+            s3_photo_url_display=f'{BASE_URL}/{form.file.data.filename}'
         )
         db.session.add(new_photo)
         db.session.commit()
