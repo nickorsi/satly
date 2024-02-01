@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://bootswatch.com/5/vapor/bootstrap.css">
   <title>Saltly</title>
 </head>
 <body>
@@ -17,6 +18,10 @@
       </li>
     </ul>
   </nav>
+
+  {% for message in get_flashed_messages() %}
+    <div class="alert">{{message}}</div>
+  {% endfor %}
 
   {% block content %}
   {% endblock %}
