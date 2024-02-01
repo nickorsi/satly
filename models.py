@@ -25,9 +25,20 @@ class Photo(db.Model):
         nullable=False  # TODO: Add a default value of None?
     )
 
-    s3_photo_url = db.Column(
+    s3_photo_url_orig = db.Column(
         db.String(700),
         nullable=False
+    )
+
+    s3_photo_url_display = db.Column(
+        db.String(700),
+        nullable=False
+    )
+
+    edited = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=False,
     )
 
     active = db.Column(

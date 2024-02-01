@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 
-from wtforms import StringField, FileField
+from wtforms import StringField, FileField, BooleanField
 
 from wtforms.validators import InputRequired, Optional, Length
 
@@ -9,6 +9,7 @@ from wtforms.validators import InputRequired, Optional, Length
 
 #     if field.data
 # TODO: Validate file type.
+
 
 class AddPhotoForm(FlaskForm):
     """Add Photo Form"""
@@ -26,4 +27,23 @@ class AddPhotoForm(FlaskForm):
     file = FileField(
         "Photo File",
         validators=[InputRequired()] #TODO: Add options to restrict type of file / SIZING?
+    )
+
+
+class EditPhotoForm(FlaskForm):
+    """Add Photo Form"""
+
+    title = StringField(
+        "Title",
+        validators=[InputRequired(), Length(max=55)]
+    )
+
+    caption = StringField(
+        "Caption",
+        validators=[InputRequired(), Optional()]
+    )
+
+    blackAndWhite = BooleanField(
+        "noir mode",
+        validators=[Optional()]
     )
