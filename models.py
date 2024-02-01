@@ -22,7 +22,7 @@ class Photo(db.Model):
 
     caption = db.Column(
         db.String(700),
-        nullable=False #TODO: Add a default value of None?
+        nullable=False  # TODO: Add a default value of None?
     )
 
     s3_photo_url = db.Column(
@@ -33,7 +33,7 @@ class Photo(db.Model):
     active = db.Column(
         db.Boolean,
         nullable=False,
-        default=True, #TODO: Why doesn't this recognize default value?
+        default=True,  # TODO: Why doesn't this recognize default value?
     )
 
     # s3_thumbnail_url = db.Column(
