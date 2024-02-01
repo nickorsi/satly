@@ -25,5 +25,5 @@ class AddPhotoForm(FlaskForm):
 
     file = FileField(
         "Photo File",
-        validators=[InputRequired()]
+        validators=[InputRequired()] #TODO: Add options to restrict type of file / SIZING?
     )
