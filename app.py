@@ -94,6 +94,5 @@ def add_photo():
 
         # TODO: error handling?
         # TODO: Redirect back to photos with flashed message
-        # TODO: Way to upload image directly to S3 and avoid store/delete locally?
 
     return render_template("add_photo.html", form=form)
