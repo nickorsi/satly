@@ -11,19 +11,19 @@ Pix.ly: Image lighttable / editor»
 
 (Login/authentication isn’t required; any web user can do everything)
 
--A1 Images themselves are stored to Amazon S3, not in the database
+✓ A1 Images themselves are stored to Amazon S3, not in the database
 
-A2 Users can add a JPG photo using an upload form and picking a file on their computer (you’ll need to learn how to allow image uploads!)
+✓ A2 Users can add a JPG photo using an upload form and picking a file on their computer (you’ll need to learn how to allow image uploads!)
 
-A3 Users can view photos stored in the system
+✓ A3 Users can view photos stored in the system
 
-A4 (Added by Nick and Matt: get it looking nice)
+1/2 A4 (Added by Nick and Matt: get it looking nice)
 
 Styled like poloroid?
 Spread the stack out instead of a simple grid?
 
 
- cool things / nice to haves  (probably choose ONE)
+# cool things / nice to haves  (probably choose ONE)
 
 ## Image Data
 System will retrieve metadata from the photo (location of photo, model of camera, etc) and store it into the database (you’ll need to learn how to read the metadata from photos)
