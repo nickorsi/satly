@@ -13,3 +13,46 @@
 .photo:hover {
   border: 3px solid rgb(50, 251, 226);
 }
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home {
+  height: 85vh;
+}
+
+.home h1 {
+  margin: 0;
+}
+
+.sunglasses {
+  height: 30vh;
+  position: absolute;
+  top: 110px;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.sunglasses:hover {
+  cursor: pointer;
+}
+
+.saltshaker {
+  height: 60vh;
+}
+
+.saltshaker:hover {
+  cursor: pointer;
+}
+
+.home a {
+  margin: 0 50px;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
