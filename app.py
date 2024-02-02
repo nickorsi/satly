@@ -1,10 +1,12 @@
 import os
-from dotenv import load_dotenv
 import boto3
-from flask import Flask, redirect, flash, render_template
-from flask_debugtoolbar import DebugToolbarExtension
-from forms import AddPhotoForm, EditPhotoForm
 import requests
+
+from dotenv import load_dotenv
+from flask import Flask, redirect, flash, render_template, url_for
+from flask_debugtoolbar import DebugToolbarExtension
+from sqlalchemy.sql.expression import func
+from forms import AddPhotoForm, EditPhotoForm
 from PIL import Image
 
 from models import db, connect_db, Photo
@@ -22,6 +24,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     "DATABASE_URL", 'postgresql:///saltly')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 connect_db(app)
 
 app.debug = True  # False to turn off FDT
@@ -32,15 +35,19 @@ debug = DebugToolbarExtension(app)
 def home():
     """Displays homepage"""
 
-    return render_template("home.html")
+    redirect_url = url_for('photos')
+    return redirect(redirect_url)
+
+    # return render_template('home.html')
 
 
 @app.get("/photos")
 def photos():
     """Displays all active photos"""
 
-    photos = Photo.query.filter_by(active=True).all()
-    # TODO: Organize by newest? By descending ID or a timestamp?
+    # TODO: Organize by newest? By descending ID or a timestamp? ...random?
+    # photos = Photo.query.filter_by(active=True).all()
+    photos = Photo.query.filter_by(active=True).order_by(func.random()).all()
 
     return render_template("photos.html", photos=photos)
 
@@ -51,7 +58,7 @@ def photo(photo_id):
 
     photo = Photo.query.get_or_404(photo_id)
 
-    if photo.active == False:
+    if not photo.active:
         return render_template("notfound.html")
 
     form = EditPhotoForm(obj=photo)
@@ -60,7 +67,7 @@ def photo(photo_id):
         # Gather form data
         photo.title = form.title.data
         photo.caption = form.caption.data
-        if form.black_and_white.data == True:
+        if form.black_and_white.data:
             # Edit photo to B&W
             response = requests.get(photo.s3_photo_url_display)
 
@@ -106,7 +113,6 @@ def photo(photo_id):
     return render_template("photo.html", photo=photo, form=form)
 
 
-
 @app.route("/addphoto", methods=["GET", "POST"])
 def add_photo():
     """Displays and hadles add photo form"""
@@ -144,7 +150,8 @@ def add_photo():
             active=True,
             edited=False,
             s3_photo_url_orig=f'{BASE_URL}/{form.file.data.filename}',
-            s3_photo_url_display=f'{BASE_URL}/display_{form.file.data.filename}'
+            s3_photo_url_display=f'{BASE_URL}/display_' +
+            f'{form.file.data.filename}'
         )
         db.session.add(new_photo)
         db.session.commit()
