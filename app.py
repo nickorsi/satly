@@ -47,9 +47,14 @@ def photos():
 
     # TODO: Organize by newest? By descending ID or a timestamp? ...random?
     # photos = Photo.query.filter_by(active=True).all()
+
+    recent_photo = Photo.query.filter_by(active=True) \
+        .order_by(Photo.id.desc()).first()
     photos = Photo.query.filter_by(active=True).order_by(func.random()).all()
 
-    return render_template("photos.html", photos=photos)
+    return render_template("photos.html",
+                           photos=photos,
+                           recent_photo=recent_photo)
 
 
 @app.route("/photos/<int:photo_id>", methods=["GET", "POST"])

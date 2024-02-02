@@ -14,6 +14,14 @@
   border: 3px solid rgb(50, 251, 226);
 }
 
+/* .mainphoto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 600px;
+
+} */
+
 .home {
   display: flex;
   flex-direction: column;

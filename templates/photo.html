@@ -2,12 +2,12 @@
 
 {% block content %}
   <div>
-    <h1>{{ photo.title }}</h1>
-    <figure>
+    <h1 class="text-center">{{ photo.title }}</h1>
+    <figure class="mainphoto text-center mh-10">
       <img
         src="{{ photo.s3_photo_url_display }}"
         alt="photo of {{ photo.title }}"/>
-      <figcaption>{{photo.caption}}</figcaption>
+      <figcaption class="text-center">{{photo.caption}}</figcaption>
     </figure>
 
   </div>

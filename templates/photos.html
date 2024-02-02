@@ -3,6 +3,15 @@
   {% block content %}
     <h1 class="text-center">Look at these salty photos.</h1>
     <div class="row">
+          <div class="photo-container col-3">
+              <a class="photo-link" href="/photos/{{recent_photo.id}}">
+                <img class="photo"
+                    src="{{ recent_photo.s3_photo_url_display }}"
+                    alt="photo of {{ recent_photo.s3_photo_url_display }}"/>
+              </a>
+          </div>
+
+
       {% for photo in photos %}
           <div class="photo-container col-3">
               <a class="photo-link" href="/photos/{{photo.id}}">
