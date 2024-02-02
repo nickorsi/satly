@@ -28,6 +28,7 @@ connect_db(app)
 app.debug = True  # False to turn off FDT
 debug = DebugToolbarExtension(app)
 
+
 @app.get("/")
 def home():
     """Displays homepage"""
@@ -36,6 +37,7 @@ def home():
     return redirect(redirect_url)
 
     # return render_template('home.html')
+
 
 @app.get("/photos")
 def photos():
@@ -53,7 +55,7 @@ def photo(photo_id):
 
     photo = Photo.query.get_or_404(photo_id)
 
-    if photo.active == False:
+    if not photo.active:
         return render_template("notfound.html")
 
     form = EditPhotoForm(obj=photo)
@@ -62,7 +64,7 @@ def photo(photo_id):
         # Gather form data
         photo.title = form.title.data
         photo.caption = form.caption.data
-        if form.black_and_white.data == True:
+        if form.black_and_white.data:
             # Edit photo to B&W
             response = requests.get(photo.s3_photo_url_display)
 
@@ -108,7 +110,6 @@ def photo(photo_id):
     return render_template("photo.html", photo=photo, form=form)
 
 
-
 @app.route("/addphoto", methods=["GET", "POST"])
 def add_photo():
     """Displays and hadles add photo form"""
@@ -146,7 +147,8 @@ def add_photo():
             active=True,
             edited=False,
             s3_photo_url_orig=f'{BASE_URL}/{form.file.data.filename}',
-            s3_photo_url_display=f'{BASE_URL}/display_{form.file.data.filename}'
+            s3_photo_url_display=f'{BASE_URL}/display_ \
+                {form.file.data.filename}'
         )
         db.session.add(new_photo)
         db.session.commit()
