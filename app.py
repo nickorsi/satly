@@ -35,10 +35,10 @@ debug = DebugToolbarExtension(app)
 def home():
     """Displays homepage"""
 
-    redirect_url = url_for('photos')
-    return redirect(redirect_url)
+    # redirect_url = url_for('photos')
+    # return redirect(redirect_url)
 
-    # return render_template('home.html')
+    return render_template('home.html')
 
 
 @app.get("/photos")
