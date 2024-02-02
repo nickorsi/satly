@@ -1,10 +1,12 @@
 import os
-from dotenv import load_dotenv
 import boto3
+import requests
+
+from dotenv import load_dotenv
 from flask import Flask, redirect, flash, render_template, url_for
 from flask_debugtoolbar import DebugToolbarExtension
+from sqlalchemy.sql.expression import func
 from forms import AddPhotoForm, EditPhotoForm
-import requests
 from PIL import Image
 
 from models import db, connect_db, Photo
@@ -43,8 +45,9 @@ def home():
 def photos():
     """Displays all active photos"""
 
-    photos = Photo.query.filter_by(active=True).all()
-    # TODO: Organize by newest? By descending ID or a timestamp?
+    # TODO: Organize by newest? By descending ID or a timestamp? ...random?
+    # photos = Photo.query.filter_by(active=True).all()
+    photos = Photo.query.filter_by(active=True).order_by(func.random()).all()
 
     return render_template("photos.html", photos=photos)
 
