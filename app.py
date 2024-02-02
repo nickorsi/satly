@@ -4,6 +4,8 @@ import boto3
 from flask import Flask, redirect, flash, render_template
 from flask_debugtoolbar import DebugToolbarExtension
 from forms import AddPhotoForm, EditPhotoForm
+import requests
+from PIL import Image
 
 from models import db, connect_db, Photo
 
@@ -43,17 +45,61 @@ def photos():
     return render_template("photos.html", photos=photos)
 
 
-@app.get("/photos/<int:photo_id>")
+@app.route("/photos/<int:photo_id>", methods=["GET", "POST"])
 def photo(photo_id):
-    """Display active individual photo"""
+    """Display active individual photo and handles edit form submissions"""
 
-    form = EditPhotoForm()
     photo = Photo.query.get_or_404(photo_id)
 
-    if photo.active:
-        return render_template("photo.html", photo=photo, form=form)
+    if photo.active == False:
+        return render_template("notfound.html")
 
-    return render_template("notfound.html")
+    form = EditPhotoForm()
+
+    if form.validate_on_submit():
+        # Gather form data
+        photo.title = form.title.data
+        photo.caption = form.title.caption
+        if form.blackAndWhite.data == True:
+            # Edit photo to B&W
+            response = requests.get(photo.s3_photo_url_display)
+            with open(f"./staging/{photo.s3_photo_url_display}", "wb") as f:
+                f.write(response.content)
+            image = Image.open(f"./staging/{photo.s3_photo_url_display}")
+            image_bw = image.convert("L")
+
+            with open(f"./staging/{photo.s3_photo_url_display}", "wb") as f:
+                f.write(image_bw)
+            # Upload photo to S3
+            s3 = boto3.client(
+                "s3",
+                "us-west-1",
+                aws_access_key_id=AWS_ACCESS_KEY_ID,
+                aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+            )
+
+            # Uploading a file, WILL REPLACE/OVERWRITE IF SAME OBJECT KEY NAME
+            ind_of_slash = photo.s3_photo_url_display.rfind("/")
+            file_name = photo.s3_photo_url_display[ind_of_slash+1:]
+
+            s3.upload_file(
+                f"./staging/{photo.s3_photo_url_display}",
+                S3_BUCKET,    # or saltly-bucket
+                file_name
+            )
+
+
+            os.remove(f"./staging/{photo.s3_photo_url_display}")
+            # Update DB display url with S3 url SHOULD BE SAME URL!!!!
+            # Update DB edited to True
+            photo.edited = True
+        # Commit to DB
+        db.session.commit()
+        # Create flash message
+        flash("Edit Success!")
+
+    return render_template("photo.html", photo=photo, form=form)
+
 
 
 @app.route("/addphoto", methods=["GET", "POST"])
@@ -79,6 +125,12 @@ def add_photo():
             form.file.data.filename
         )
 
+        s3.upload_file(
+            f'./staging/{form.file.data.filename}',
+            S3_BUCKET,    # or saltly-bucket
+            "display_" + form.file.data.filename
+        )
+
         os.remove(f'./staging/{form.file.data.filename}')
 
         new_photo = Photo(
@@ -87,7 +139,7 @@ def add_photo():
             active=True,
             edited=False,
             s3_photo_url_orig=f'{BASE_URL}/{form.file.data.filename}',
-            s3_photo_url_display=f'{BASE_URL}/{form.file.data.filename}'
+            s3_photo_url_display=f'{BASE_URL}/display_{form.file.data.filename}'
         )
         db.session.add(new_photo)
         db.session.commit()
