@@ -150,8 +150,8 @@ def add_photo():
             active=True,
             edited=False,
             s3_photo_url_orig=f'{BASE_URL}/{form.file.data.filename}',
-            s3_photo_url_display=f'{BASE_URL}/display_ \
-                {form.file.data.filename}'
+            s3_photo_url_display=f'{BASE_URL}/display_' +
+            f'{form.file.data.filename}'
         )
         db.session.add(new_photo)
         db.session.commit()
