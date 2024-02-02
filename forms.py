@@ -5,13 +5,12 @@ from wtforms import StringField, FileField, BooleanField
 from wtforms.validators import InputRequired, Optional, Length
 
 
-
 class AddPhotoForm(FlaskForm):
     """Add Photo Form"""
 
     title = StringField(
         "Title",
-        validators=[InputRequired(), Length(max = 55)]
+        validators=[InputRequired(), Length(max=55)]
     )
 
     caption = StringField(
@@ -21,7 +20,7 @@ class AddPhotoForm(FlaskForm):
 
     file = FileField(
         "Photo File",
-        validators=[InputRequired()] #TODO: Add options to restrict type of file / SIZING?
+        validators=[InputRequired()]  # TODO: restrict type of file / SIZING?
     )
 
 

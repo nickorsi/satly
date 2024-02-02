@@ -28,7 +28,7 @@ app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 connect_db(app)
 
-app.debug = True  # False to turn off FDT
+app.debug = False  # False to turn off FDT
 debug = DebugToolbarExtension(app)
 
 
@@ -36,18 +36,12 @@ debug = DebugToolbarExtension(app)
 def home():
     """Displays homepage"""
 
-    # redirect_url = url_for('photos')
-    # return redirect(redirect_url)
-
     return render_template('home.html')
 
 
 @app.get("/photos")
 def photos():
     """Displays all active photos"""
-
-    # TODO: Organize by newest? By descending ID or a timestamp? ...random?
-    # photos = Photo.query.filter_by(active=True).all()
 
     recent_photo = Photo.query.filter_by(active=True) \
         .order_by(Photo.id.desc()).first()
@@ -87,36 +81,17 @@ def photo(photo_id):
             image = Image.open(f"./staging/{file_name}")
             image_bw = image.convert("L")
             image_bw.save(f"./staging/{file_name}")
-            breakpoint()
-            # # Upload photo to S3
-            # s3 = boto3.client(
-            #     "s3",
-            #     "us-west-1",
-            #     aws_access_key_id=AWS_ACCESS_KEY_ID,
-            #     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-            # )
 
-            # Uploading a file, WILL REPLACE/OVERWRITE IF SAME OBJECT KEY NAME
             ind_of_slash = photo.s3_photo_url_display.rfind("/")
             file_name = photo.s3_photo_url_display[ind_of_slash + 1:]
-
-            # s3.upload_file(
-            #     # f"./staging/{photo.s3_photo_url_display}",
-            #     f"./staging/{file_name}",
-            #     S3_BUCKET,    # or saltly-bucket
-            #     file_name
-            # )
 
             s3_upload(f"./staging/{file_name}", file_name)
 
             os.remove(f"./staging/{file_name}")
-            # Update DB display url with S3 url SHOULD BE SAME URL!!!!
-            # Update DB edited to True
             photo.edited = True
             photo.black_and_white = True
-        # Commit to DB
+
         db.session.commit()
-        # Create flash message
         flash("Edit Success!")
 
     return render_template("photo.html", photo=photo, form=form)
@@ -124,30 +99,19 @@ def photo(photo_id):
 
 @app.route("/addphoto", methods=["GET", "POST"])
 def add_photo():
-    """Displays and hadles add photo form"""
+    """Displays and handles add photo form"""
 
     form = AddPhotoForm()
 
     if form.validate_on_submit():
         form.file.data.save(f'./staging/{form.file.data.filename}')
 
-        s3 = boto3.client(
-            "s3",
-            "us-west-1",
-            aws_access_key_id=AWS_ACCESS_KEY_ID,
-            aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-        )
-
-        # Uploading a file, WILL REPLACE/OVERWRITE IF SAME OBJECT KEY NAME
-        s3.upload_file(
+        s3_upload(
             f'./staging/{form.file.data.filename}',
-            S3_BUCKET,    # or saltly-bucket
-            form.file.data.filename
-        )
+            form.file.data.filename)
 
-        s3.upload_file(
+        s3_upload(
             f'./staging/{form.file.data.filename}',
-            S3_BUCKET,    # or saltly-bucket
             "display_" + form.file.data.filename
         )
 

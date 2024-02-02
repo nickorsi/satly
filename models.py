@@ -53,7 +53,6 @@ class Photo(db.Model):
         default=True,
     )
 
-
     # s3_thumbnail_url = db.Column(
     #     db.String(700),
     #     nullable=False
