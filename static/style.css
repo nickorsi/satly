@@ -1,26 +1,10 @@
-.photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 10px;
-  border: 3px solid transparent;
+/* ------BASE STYLING------ */
 
-}
-.photo-container {
-  margin-bottom: 20px;
+.navbar a:hover {
+  text-decoration: underline;
 }
 
-.photo:hover {
-  border: 3px solid rgb(50, 251, 226);
-}
-
-/* .mainphoto {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-height: 600px;
-
-} */
+/* ------HOME STYLING------ */
 
 .home {
   display: flex;
@@ -31,6 +15,10 @@
 
 .home {
   height: 85vh;
+}
+
+.home a {
+  margin: 0 50px;
 }
 
 .home h1 {
@@ -57,10 +45,25 @@
   cursor: pointer;
 }
 
-.home a {
-  margin: 0 50px;
+/* ------PHOTOS STYLING------ */
+
+.photo-container {
+  margin-bottom: 20px;
 }
 
-.navbar a:hover {
-  text-decoration: underline;
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 3px solid transparent;
+
 }
+
+.photo:hover {
+  border: 3px solid rgb(50, 251, 226);
+}
+
+
+
+
