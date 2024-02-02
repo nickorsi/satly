@@ -1,9 +1,26 @@
 {% extends 'base.html' %}
 
   {% block content %}
-    <h1>Welcome to Saltly</h1>
+    <div class="home">
+      <h1>Welcome to Saltly</h1>
+      <img class="sunglasses" src="./static/sunglasses.svg" alt="sunglasses">
+      <img class="saltshaker" src="./static/saltshaker.svg" alt="salt shaker">
+      <div>
+        <a class="btn btn-secondary" href="/addphoto">Add Salt</a>
+        <a class="btn btn-secondary" href="/photos">View Salt</a>
+      </div>
+    </div>
 
-    <a href="/addphoto">Add a photo</a>
-    <a href="/photos">Look at photos</a>
+    <script>
+      const shades = document.querySelector(".sunglasses");
+      const salt = document.querySelector(".saltshaker");
 
+      salt.addEventListener("click", function() {
+        shades.setAttribute("style", "opacity:1")
+      })
+
+      shades.addEventListener("click", function() {
+        shades.setAttribute("style", "opacity:1")
+      })
+    </script>
   {% endblock %}
