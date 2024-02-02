@@ -34,7 +34,13 @@ Users can search image data from the EXIF fields (you can learn about PostgreSQL
 ## Image Edits
 
 Users can perform simple image edits (for example):
--turning color photos into B&W   (some kind of photo api to use?)
--adding sepia tones
--reducing the size of the image
--adding a border around the image
+✓ turning color photos into B&W   (some kind of photo api to use?)
+- adding sepia tones
+- reducing the size of the image
+- adding a border around the image
+
+
+
+
+# 2027 goals
+- remove the white part from the eye - s killer mode
