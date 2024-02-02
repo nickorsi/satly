@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 import boto3
-from flask import Flask, redirect, flash, render_template
+from flask import Flask, redirect, flash, render_template, url_for
 from flask_debugtoolbar import DebugToolbarExtension
 from forms import AddPhotoForm, EditPhotoForm
 import requests
@@ -22,18 +22,20 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     "DATABASE_URL", 'postgresql:///saltly')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 connect_db(app)
 
 app.debug = True  # False to turn off FDT
 debug = DebugToolbarExtension(app)
 
-
 @app.get("/")
 def home():
     """Displays homepage"""
 
-    return render_template("home.html")
+    redirect_url = url_for('photos')
+    return redirect(redirect_url)
 
+    # return render_template('home.html')
 
 @app.get("/photos")
 def photos():

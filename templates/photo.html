@@ -11,8 +11,8 @@
     </figure>
 
   </div>
-  <button id="edit-button">Edit</button>
-  <form method="POST">
+  <button id="edit-button" class="btn btn-primary">Edit</button>
+  <form method="POST" id="edit-form" style="display: none">
     {{ form.hidden_tag() }}
 
     {% for field in form if field.widget.input_type != 'hidden' %}
@@ -48,6 +48,17 @@
     {% endfor %}
     <button class="btn btn-primary" type="submit">Save</button>
   </form>
+
+  <script>
+    const toggle = document.getElementById('edit-button');
+    const editForm = document.getElementById('edit-form');
+
+    toggle.addEventListener("click", function(e) {
+      e.preventDefault();
+      e.target.style.display = 'none';
+      editForm.style.display = 'block';
+    })
+  </script>
 
 {% endblock %}
 
