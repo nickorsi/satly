@@ -54,13 +54,13 @@ def photo(photo_id):
     if photo.active == False:
         return render_template("notfound.html")
 
-    form = EditPhotoForm()
+    form = EditPhotoForm(obj=photo)
 
     if form.validate_on_submit():
         # Gather form data
         photo.title = form.title.data
         photo.caption = form.caption.data
-        if form.blackAndWhite.data == True:
+        if form.black_and_white.data == True:
             # Edit photo to B&W
             response = requests.get(photo.s3_photo_url_display)
 
@@ -97,6 +97,7 @@ def photo(photo_id):
             # Update DB display url with S3 url SHOULD BE SAME URL!!!!
             # Update DB edited to True
             photo.edited = True
+            photo.black_and_white = True
         # Commit to DB
         db.session.commit()
         # Create flash message

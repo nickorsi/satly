@@ -43,7 +43,7 @@ class EditPhotoForm(FlaskForm):
         validators=[InputRequired(), Optional()]
     )
 
-    blackAndWhite = BooleanField(
+    black_and_white = BooleanField(
         "noir mode",
         validators=[Optional()]
     )

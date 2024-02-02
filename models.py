@@ -41,11 +41,18 @@ class Photo(db.Model):
         default=False,
     )
 
+    black_and_white = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=False,
+    )
+
     active = db.Column(
         db.Boolean,
         nullable=False,
         default=True,
     )
+
 
     # s3_thumbnail_url = db.Column(
     #     db.String(700),
