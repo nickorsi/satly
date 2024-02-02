@@ -18,6 +18,17 @@ Pix.ly: Image lighttable / editor»
 ✓ A3 Users can view photos stored in the system
 
 1/2 A4 (Added by Nick and Matt: get it looking nice)
+### Photos page
+    ✕ Consistent sizing of photos
+    ✓ Center the title and caption and photo like the homepage
+
+✓ Get the new photo to show up as #1
+Get new photo to not duplicate?
+Refactoring
+Docstrings
+Stop at 11:45 to get demo ready
+
+
 
 Styled like poloroid?
 Spread the stack out instead of a simple grid?
