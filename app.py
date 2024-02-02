@@ -8,6 +8,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.sql.expression import func
 from forms import AddPhotoForm, EditPhotoForm
 from PIL import Image
+from helpers import s3_upload
 
 from models import db, connect_db, Photo
 
@@ -50,7 +51,8 @@ def photos():
 
     recent_photo = Photo.query.filter_by(active=True) \
         .order_by(Photo.id.desc()).first()
-    photos = Photo.query.filter_by(active=True).order_by(func.random()).all()
+    photos = Photo.query.filter(Photo.id != recent_photo.id, Photo.active) \
+        .order_by(func.random()).all()
 
     return render_template("photos.html",
                            photos=photos,
@@ -85,25 +87,27 @@ def photo(photo_id):
             image = Image.open(f"./staging/{file_name}")
             image_bw = image.convert("L")
             image_bw.save(f"./staging/{file_name}")
-
-            # Upload photo to S3
-            s3 = boto3.client(
-                "s3",
-                "us-west-1",
-                aws_access_key_id=AWS_ACCESS_KEY_ID,
-                aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-            )
+            breakpoint()
+            # # Upload photo to S3
+            # s3 = boto3.client(
+            #     "s3",
+            #     "us-west-1",
+            #     aws_access_key_id=AWS_ACCESS_KEY_ID,
+            #     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+            # )
 
             # Uploading a file, WILL REPLACE/OVERWRITE IF SAME OBJECT KEY NAME
             ind_of_slash = photo.s3_photo_url_display.rfind("/")
             file_name = photo.s3_photo_url_display[ind_of_slash + 1:]
 
-            s3.upload_file(
-                # f"./staging/{photo.s3_photo_url_display}",
-                f"./staging/{file_name}",
-                S3_BUCKET,    # or saltly-bucket
-                file_name
-            )
+            # s3.upload_file(
+            #     # f"./staging/{photo.s3_photo_url_display}",
+            #     f"./staging/{file_name}",
+            #     S3_BUCKET,    # or saltly-bucket
+            #     file_name
+            # )
+
+            s3_upload(f"./staging/{file_name}", file_name)
 
             os.remove(f"./staging/{file_name}")
             # Update DB display url with S3 url SHOULD BE SAME URL!!!!
