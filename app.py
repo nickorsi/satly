@@ -59,17 +59,21 @@ def photo(photo_id):
     if form.validate_on_submit():
         # Gather form data
         photo.title = form.title.data
-        photo.caption = form.title.caption
+        photo.caption = form.caption.data
         if form.blackAndWhite.data == True:
             # Edit photo to B&W
             response = requests.get(photo.s3_photo_url_display)
-            with open(f"./staging/{photo.s3_photo_url_display}", "wb") as f:
-                f.write(response.content)
-            image = Image.open(f"./staging/{photo.s3_photo_url_display}")
-            image_bw = image.convert("L")
 
-            with open(f"./staging/{photo.s3_photo_url_display}", "wb") as f:
-                f.write(image_bw)
+            ind_of_slash = photo.s3_photo_url_display.rfind("/")
+            file_name = photo.s3_photo_url_display[ind_of_slash + 1:]
+
+            with open(f"./staging/{file_name}", "wb") as f:
+                print("response.content", response.content)
+                f.write(response.content)
+            image = Image.open(f"./staging/{file_name}")
+            image_bw = image.convert("L")
+            image_bw.save(f"./staging/{file_name}")
+
             # Upload photo to S3
             s3 = boto3.client(
                 "s3",
@@ -80,16 +84,16 @@ def photo(photo_id):
 
             # Uploading a file, WILL REPLACE/OVERWRITE IF SAME OBJECT KEY NAME
             ind_of_slash = photo.s3_photo_url_display.rfind("/")
-            file_name = photo.s3_photo_url_display[ind_of_slash+1:]
+            file_name = photo.s3_photo_url_display[ind_of_slash + 1:]
 
             s3.upload_file(
-                f"./staging/{photo.s3_photo_url_display}",
+                # f"./staging/{photo.s3_photo_url_display}",
+                f"./staging/{file_name}",
                 S3_BUCKET,    # or saltly-bucket
                 file_name
             )
 
-
-            os.remove(f"./staging/{photo.s3_photo_url_display}")
+            os.remove(f"./staging/{file_name}")
             # Update DB display url with S3 url SHOULD BE SAME URL!!!!
             # Update DB edited to True
             photo.edited = True
