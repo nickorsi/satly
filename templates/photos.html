@@ -1,27 +1,29 @@
 {% extends 'base.html' %}
 
-  {% block content %}
-    <h1 class="text-center">Look at these salty photos.</h1>
-    <div class="row">
-          <div class="photo-container col-3">
-              <a class="photo-link" href="/photos/{{recent_photo.id}}">
-                <img class="photo"
-                    src="{{ recent_photo.s3_photo_url_display }}"
-                    alt="photo of {{ recent_photo.s3_photo_url_display }}"/>
-              </a>
-          </div>
+{% block content %}
+<h1 class="text-center">Look at these salty photos.</h1>
+<div class="row">
+  {% if recent_photo == None %}
+    <p>Looks like we're out of salt!</p>
+    {% else %}
+    <div class="photo-container col-3">
+      <a class="photo-link" href="/photos/{{recent_photo.id}}">
+        <img class="photo" src="{{ recent_photo.s3_photo_url_display }}"
+          alt="photo of {{ recent_photo.s3_photo_url_display }}" />
+      </a>
+    </div>
+  {% endif %}
 
-
-      {% for photo in photos %}
-          <div class="photo-container col-3">
-              <a class="photo-link" href="/photos/{{photo.id}}">
-                <img class="photo"
-                    src="{{ photo.s3_photo_url_display }}"
-                    alt="photo of {{ photo.s3_photo_url_display }}"/>
-              </a>
-          </div>
-
-      {% endfor %}
+  {% if photos != None %}
+    {% for photo in photos %}
+    <div class="photo-container col-3">
+      <a class="photo-link" href="/photos/{{photo.id}}">
+        <img class="photo" src="{{ photo.s3_photo_url_display }}" alt="photo of {{ photo.s3_photo_url_display }}" />
+      </a>
     </div>
 
-  {% endblock %}
+    {% endfor %}
+  {% endif %}
+</div>
+
+{% endblock %}
