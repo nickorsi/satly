@@ -9,7 +9,7 @@ from sqlalchemy.sql.expression import func
 from forms import AddPhotoForm, EditPhotoForm
 from PIL import Image
 from helpers import s3_upload
-
+from datetime import datetime
 from models import db, connect_db, Photo
 
 load_dotenv()
@@ -45,12 +45,18 @@ def photos():
 
     recent_photo = Photo.query.filter_by(active=True) \
         .order_by(Photo.id.desc()).first()
+
+    if recent_photo == None:
+        return render_template("photos.html", recent_photo=None, photos=None)
     photos = Photo.query.filter(Photo.id != recent_photo.id, Photo.active) \
         .order_by(func.random()).all()
 
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
     return render_template("photos.html",
                            photos=photos,
-                           recent_photo=recent_photo)
+                           recent_photo=recent_photo,
+                           timestamp=timestamp)
 
 
 @app.route("/photos/<int:photo_id>", methods=["GET", "POST"])
@@ -94,7 +100,9 @@ def photo(photo_id):
         db.session.commit()
         flash("Edit Success!")
 
-    return render_template("photo.html", photo=photo, form=form)
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    return render_template("photo.html", photo=photo, form=form, timestamp=timestamp)
 
 
 @app.route("/addphoto", methods=["GET", "POST"])
@@ -108,7 +116,8 @@ def add_photo():
 
         s3_upload(
             f'./staging/{form.file.data.filename}',
-            form.file.data.filename)
+            form.file.data.filename
+        )
 
         s3_upload(
             f'./staging/{form.file.data.filename}',
