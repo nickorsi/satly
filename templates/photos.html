@@ -6,19 +6,24 @@
   {% if recent_photo == None %}
     <p>Looks like we're out of salt!</p>
     {% else %}
-    <div class="photo-container col-3">
+    <div class="photo-container col-lg-3 col-md-4 col-sm-6 col-xs-6">
       <a class="photo-link" href="/photos/{{recent_photo.id}}">
-        <img class="photo" src="{{ recent_photo.s3_photo_url_display }}"
-          alt="photo of {{ recent_photo.s3_photo_url_display }}" />
+        <img
+          class="photo"
+          src="{{ recent_photo.s3_photo_url_display }}?t={{ timestamp }}"
+          alt="{{ recent_photo.title }}" />
       </a>
     </div>
   {% endif %}
 
   {% if photos != None %}
     {% for photo in photos %}
-    <div class="photo-container col-3">
+    <div class="photo-container col-lg-3 col-md-4 col-sm-6 col-xs-6">
       <a class="photo-link" href="/photos/{{photo.id}}">
-        <img class="photo" src="{{ photo.s3_photo_url_display }}" alt="photo of {{ photo.s3_photo_url_display }}" />
+        <img
+          class="photo"
+          src="{{ photo.s3_photo_url_display }}?t={{ timestamp }}"
+          alt="photo of {{ photo.title }}" />
       </a>
     </div>
 

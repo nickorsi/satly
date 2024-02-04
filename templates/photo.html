@@ -1,62 +1,79 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div>
-    <h1 class="text-center">{{ photo.title }}</h1>
-    <figure class="mainphoto text-center mh-10">
+  <div class="main-photo-page">
+    <figure class="text-center mh-10">
+      <h1 class="text-center">{{ photo.title }}</h1>
       <img
-        src="{{ photo.s3_photo_url_display }}"
+        class="mainphoto"
+        src="{{ photo.s3_photo_url_display }}?t={{ timestamp }}"
         alt="photo of {{ photo.title }}"/>
       <figcaption class="text-center">{{photo.caption}}</figcaption>
     </figure>
 
-  </div>
-  <button id="edit-button" class="btn btn-primary">Edit</button>
-  <form method="POST" id="edit-form" style="display: none">
-    {{ form.hidden_tag() }}
 
-    {% for field in form if field.widget.input_type != 'hidden' %}
+    <button id="edit-button" class="btn btn-primary">Edit</button>
+    <form method="POST" id="edit-form" style="display: none">
+      {{ form.hidden_tag() }}
 
-      <div class='mb-3'>
+      {% for field in form if field.widget.input_type != 'hidden' %}
 
-        {{ field.label }}
+        <div class='mb-3'>
 
-        {% if field.type == "BooleanField" %}
+          {{ field.label }}
 
-          {{ field(class="form-check-input") }}
+          {% if field.type == "BooleanField" %}
 
-        {% elif field.type == "SelectField" %}
+            {% if field.data == True %}
 
-          {{ field(class="form-select") }}
+              {{ field(class="form-check-input", disabled=true) }}
 
-        {% else %}
+            {% else %}
 
-          {{ field(class="form-control") }}
+              {{ field(class="form-check-input") }}
 
-        {% endif %}
+            {% endif %}
 
-        <span>
-          {% if field.errors %}
-            {% for error in field.errors %}
-              <b class="text-danger">{{ error }}</b>
-            {% endfor %}
+
+          {% elif field.type == "SelectField" %}
+
+            {{ field(class="form-select") }}
+
+          {% else %}
+
+            {{ field(class="form-control") }}
+
           {% endif %}
-        </span>
 
-      </div>
+          <span>
+            {% if field.errors %}
+              {% for error in field.errors %}
+                <b class="text-danger">{{ error }}</b>
+              {% endfor %}
+            {% endif %}
+          </span>
 
-    {% endfor %}
-    <button class="btn btn-primary" type="submit">Save</button>
-  </form>
+        </div>
 
+      {% endfor %}
+      <button class="btn btn-primary" type="submit">Save</button>
+      <button id="close-button" class="btn btn-danger" type="button">Close</button>
+    </form>
+  </div>
   <script>
-    const toggle = document.getElementById('edit-button');
+    const editBtn = document.getElementById('edit-button');
+    const closeBtn = document.getElementById('close-button');
     const editForm = document.getElementById('edit-form');
 
-    toggle.addEventListener("click", function(e) {
+    editBtn.addEventListener("click", function(e) {
       e.preventDefault();
       e.target.style.display = 'none';
       editForm.style.display = 'block';
+    })
+    closeBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+      editForm.style.display = 'none';
+      editBtn.style.display = 'block';
     })
   </script>
 
