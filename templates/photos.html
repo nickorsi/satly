@@ -6,7 +6,7 @@
   {% if recent_photo == None %}
     <p>Looks like we're out of salt!</p>
     {% else %}
-    <div class="photo-container col-lg-3 col-md-4 col-sm-6 col-xs-6">
+    <div class="photo-container col-md-4 col-sm-6 col-xs-6">
       <a class="photo-link" href="/photos/{{recent_photo.id}}">
         <img
           class="photo"
@@ -18,7 +18,7 @@
 
   {% if photos != None %}
     {% for photo in photos %}
-    <div class="photo-container col-lg-3 col-md-4 col-sm-6 col-xs-6">
+    <div class="photo-container col-md-4 col-sm-6 col-xs-6">
       <a class="photo-link" href="/photos/{{photo.id}}">
         <img
           class="photo"
