@@ -150,7 +150,7 @@ To get a local copy up and running follow these simple example steps. Note that 
   ```sh
   (venv) $ flask run
   ```
-  Note: Mac users may need to run the flask server on port 5001 using the below command
+  Note: Mac users may need to run the flask server on port 5001 using the below command.
 
     ```sh
     (venv) $ flask run -p 5001
@@ -167,15 +167,13 @@ To get a local copy up and running follow these simple example steps. Note that 
 
 Seed the database with some sample images. This requires PostgreSQL to be installed.
 
-1. Enter iPython in terminal (while in venv):
+1. Fills the database with the sql file:
    ```sh
-   (venv) $ ipython
+   (venv) $ psql - f seedNO.sql
    ```
-2. Run seed file:
-  ```python
-  In [1]: run seedNO.sql
-  ```
-Note: This will create a DB called saltly and is assuming you don't have an active db called this.
+   Note: This will create a DB called saltly and is assuming you don't have another active db called this.
+
+2. Now add the images within the "static/starter_images" directory to the connected AWS S3 bucket.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
