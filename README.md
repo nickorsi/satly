@@ -186,6 +186,7 @@ Note: This will create a DB called saltly and is assuming you don't have an acti
 - [ ] Add more color tone editing options for the images
 - [ ] Add a "Revert" option to go back to the original image
 - [ ] Add authentication/authorization so users can make photos public and only users can edit their images
+- [ ] Make the site responsive
 - [ ] Find a better way to cache images and still have new image edits appear without hard refresh
   - Current work around is to make every image url unique, preventing caching but allowing edited photos to appear without hard refresh
 
