@@ -20,14 +20,12 @@
 -->
 
 <!-- PROJECT LOGO -->
+<h3 align="center">🧂Saltly🧂</h3>
 <br />
 <div align="center">
   <a href="https://github.com/nickorsi/satly">
     <img src="static/satly_demo.gif" alt="App Demo Gif">
   </a>
-
-<h3 align="center">Saltly</h3>
-
   <p align="center">
     An image light table/editor app for all your salty photos!
     <br />
@@ -220,29 +218,29 @@ This was built as part of the [Rithm School](https://www.rithmschool.com/) curri
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[Python.com]: (https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-[Python-url]: (https://www.python.org/)
-[JavaScript.com]: (https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
-[JavaScript-url]: (https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[HTML5.com]: (https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
-[HTML5-url]: (https://developer.mozilla.org/en-US/docs/Web/HTML)
-[CSS3.com]: (https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
-[CSS3-url]: (https://developer.mozilla.org/en-US/docs/Web/CSS)
-[PostgreSQL.com]: (https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
-[PostgreSQL-url]: (https://www.postgresql.org/)
+[Python.com]: https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54
+[Python-url]: https://www.python.org/
+[JavaScript.com]: https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E
+[JavaScript-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+[HTML5.com]: https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white
+[HTML5-url]: https://developer.mozilla.org/en-US/docs/Web/HTML
+[CSS3.com]: https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white
+[CSS3-url]: https://developer.mozilla.org/en-US/docs/Web/CSS
+[PostgreSQL.com]: https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white
+[PostgreSQL-url]: https://www.postgresql.org/
 [Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [Bootstrap-url]: https://getbootstrap.com
-[Flask.com]: (https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
-[Flask-url]: (https://flask.palletsprojects.com/en/3.0.x/)
-[SQLAlchemy.com]: (https://img.shields.io/badge/SQLAlchemy-%23D63113?style=for-the-badge)
-[SQLAlchemy-url]: (https://flask-sqlalchemy.palletsprojects.com/en/3.1.x/)
-[Jinja.com]: (https://img.shields.io/badge/jinja-white.svg?style=for-the-badge&logo=jinja&logoColor=black)
-[Jinja-url]: (https://jinja.palletsprojects.com/en/3.1.x/)
-[WTForms.com]: (https://img.shields.io/badge/WTForms-blue)
-[WTForms-url]: (https://flask-wtf.readthedocs.io/en/1.2.x/)
-[AWS.com]: (https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
-[AWS-url]: (https://aws.amazon.com/free/?gclid=CjwKCAjwte-vBhBFEiwAQSv_xQ9cNbAh7bqze8OHPqAjkwd9WAcrT9ebcC_gjiMhb5iNz2KDvq9QARoCrkkQAvD_BwE&trk=fce796e8-4ceb-48e0-9767-89f7873fac3d&sc_channel=ps&ef_id=CjwKCAjwte-vBhBFEiwAQSv_xQ9cNbAh7bqze8OHPqAjkwd9WAcrT9ebcC_gjiMhb5iNz2KDvq9QARoCrkkQAvD_BwE:G:s&s_kwcid=AL!4422!3!592542020599!e!!g!!aws!1644045032!68366401852&all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=*all&awsf.Free%20Tier%20Categories=*all)
-[Render.com]: (https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white)
-[Render-url]: (https://render.com/)
-[ElephantSQL.com]: (https://img.shields.io/badge/ElephantSQL-%233F9BBF?style=for-the-badge)
-[ElephantSQL-url]: (https://www.elephantsql.com/)
+[Flask.com]: https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white
+[Flask-url]: https://flask.palletsprojects.com/en/3.0.x/
+[SQLAlchemy.com]: https://img.shields.io/badge/SQLAlchemy-%23D63113?style=for-the-badge
+[SQLAlchemy-url]: https://flask-sqlalchemy.palletsprojects.com/en/3.1.x/
+[Jinja.com]: https://img.shields.io/badge/jinja-white.svg?style=for-the-badge&logo=jinja&logoColor=black
+[Jinja-url]: https://jinja.palletsprojects.com/en/3.1.x/
+[WTForms.com]: https://img.shields.io/badge/WTForms-blue
+[WTForms-url]: https://flask-wtf.readthedocs.io/en/1.2.x/
+[AWS.com]: https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white
+[AWS-url]: https://aws.amazon.com/free/?gclid=CjwKCAjwte-vBhBFEiwAQSv_xQ9cNbAh7bqze8OHPqAjkwd9WAcrT9ebcC_gjiMhb5iNz2KDvq9QARoCrkkQAvD_BwE&trk=fce796e8-4ceb-48e0-9767-89f7873fac3d&sc_channel=ps&ef_id=CjwKCAjwte-vBhBFEiwAQSv_xQ9cNbAh7bqze8OHPqAjkwd9WAcrT9ebcC_gjiMhb5iNz2KDvq9QARoCrkkQAvD_BwE:G:s&s_kwcid=AL!4422!3!592542020599!e!!g!!aws!1644045032!68366401852&all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=*all&awsf.Free%20Tier%20Categories=*all
+[Render.com]: https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white
+[Render-url]: https://render.com/
+[ElephantSQL.com]: https://img.shields.io/badge/ElephantSQL-%233F9BBF?style=for-the-badge
+[ElephantSQL-url]: https://www.elephantsql.com/
