@@ -3,6 +3,10 @@
 .navbar a:hover {
   text-decoration: underline;
 }
+.navbar-brand, .nav-link {
+  font-size: clamp(1rem, 2vw, 2rem);
+  color: red;
+}
 
 /* ------HOME STYLING------ */
 
@@ -22,7 +26,8 @@
 }
 
 .home h1 {
-  margin: 0;
+  margin: 20px;
+  font-size: clamp(2rem, 4vw, 5rem);
 }
 
 .sunglasses {
@@ -43,6 +48,18 @@
 
 .saltshaker:hover {
   cursor: pointer;
+}
+
+.buttons_container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.buttons_container a {
+  font-size: clamp(1rem, 2vw, 2rem);
+  width: min(50%, 250px);
+  box-sizing: border-box;
 }
 
 /* ------PHOTOS STYLING------ */
