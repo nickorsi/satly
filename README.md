@@ -76,7 +76,7 @@
 
 Saltly is an app where users can upload images, view images, and edit the color tone of an image. There is no authentication/authorization handling in the app currently, so all users can see and edit all images.
 
-This is a full-stack application written in Python using Flask as the web framework and Flask-SQLAlchemy as an Object Relational Mapper (ORM). This is a traditional HTML serving application that incorporates the use of AWS S3 cloud storage to save the image files and keep them seperate from the backend PostgreSQL database.
+This is a full-stack application written in Python using Flask as the web framework and Flask-SQLAlchemy as an Object Relational Mapper (ORM). This is a traditional HTML serving application that incorporates the use of AWS S3 cloud storage to save the image files and keep them separate from the backend PostgreSQL database.
 
 Deployed using Render to host the backend code and ElephantSQL to host the database.
 
@@ -205,7 +205,7 @@ This was built as part of the [Rithm School](https://www.rithmschool.com/) curri
 
 * [Matt Smida](https://github.com/mattsmida): Co Author
 * [Best README Template](https://github.com/othneildrew/Best-README-Template)
-* [Mardown Badges](https://github.com/Ileriayo/markdown-badges)
+* [Markdown Badges](https://github.com/Ileriayo/markdown-badges)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
