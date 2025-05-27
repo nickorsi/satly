@@ -1,28 +1,33 @@
 import os
-import boto3
 import requests
 
 from dotenv import load_dotenv
-from flask import Flask, redirect, flash, render_template, url_for
+from flask import Flask, redirect, flash, render_template, url_for, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.sql.expression import func
 from forms import AddPhotoForm, EditPhotoForm
 from PIL import Image
 from helpers import s3_upload
 from datetime import datetime
+from urllib.parse import quote_plus
 from models import db, connect_db, Photo
 
 load_dotenv()
 
-AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-S3_BUCKET = os.environ['S3_BUCKET']
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+S3_BUCKET = os.getenv('S3_BUCKET')
 BASE_URL = f'https://{S3_BUCKET}.s3.us-west-1.amazonaws.com'
+PASSWORD = quote_plus(os.getenv('password'))
+USER = os.getenv('user')
+HOST = os.getenv('host')
+PORT = os.getenv('port')
+DBNAME = os.getenv('dbname')
+DATA_BASE_URL = f"postgresql+psycopg2://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}?sslmode=require"
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = AWS_SECRET_ACCESS_KEY
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    "DATABASE_URL", 'postgresql:///saltly')
+app.config['SQLALCHEMY_DATABASE_URI'] = DATA_BASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
@@ -104,7 +109,7 @@ def photo(photo_id):
 
     return render_template("photo.html", photo=photo, form=form, timestamp=timestamp)
 
-
+#
 @app.route("/addphoto", methods=["GET", "POST"])
 def add_photo():
     """Displays and handles add photo form"""
@@ -113,19 +118,21 @@ def add_photo():
 
     if form.validate_on_submit():
         form.file.data.save(f'./staging/{form.file.data.filename}')
-
+        # Upload photo to S3 to retain an original copy so it can always be
+        # referenced if edits need to be undone.
         s3_upload(
             f'./staging/{form.file.data.filename}',
             form.file.data.filename
         )
-
+        # Upload photo to S3 that will be the display version of the photo
         s3_upload(
             f'./staging/{form.file.data.filename}',
             "display_" + form.file.data.filename
         )
-
+        # After succesful upload, remove the photo from ondisk storage
         os.remove(f'./staging/{form.file.data.filename}')
 
+        # Create photo object to save into db
         new_photo = Photo(
             title=form.title.data,
             caption=form.caption.data,
