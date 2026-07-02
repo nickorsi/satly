@@ -18,13 +18,7 @@ AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 S3_BUCKET = os.getenv('S3_BUCKET')
 BASE_URL = f'https://{S3_BUCKET}.s3.us-west-1.amazonaws.com'
-PASSWORD = quote_plus(os.getenv('password'))
-USER = os.getenv('user')
-HOST = os.getenv('host')
-PORT = os.getenv('port')
-DBNAME = os.getenv('dbname')
-SECRET_TOKEN = os.getenv('SECRET_TOKEN')
-DATA_BASE_URL = f"postgresql+psycopg2://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}?sslmode=require"
+DATA_BASE_URL = os.getenv('DATA_BASE_URL')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = AWS_SECRET_ACCESS_KEY
