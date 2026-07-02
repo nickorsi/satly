@@ -2,6 +2,8 @@ import os
 import boto3
 from dotenv import load_dotenv
 from flask import Flask
+from sqlalchemy import text
+from models import db
 
 load_dotenv()
 
@@ -10,7 +12,14 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 S3_BUCKET = os.environ['S3_BUCKET']
 BASE_URL = f'https://{S3_BUCKET}.s3.us-west-1.amazonaws.com'
 
-s3 = boto3.client(
+s3_client = boto3.client(
+    "s3",
+    "us-west-1",
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+)
+
+s3_resource = boto3.resource(
     "s3",
     "us-west-1",
     aws_access_key_id=AWS_ACCESS_KEY_ID,
@@ -23,4 +32,23 @@ def s3_upload(file_path, file_name):
     file to S3 with the given name as the key. Returns error if unsuccessful.
     """
 
-    s3.upload_file(file_path, S3_BUCKET, file_name)
+    s3_client.upload_file(file_path, S3_BUCKET, file_name)
+
+def s3_empty_bucket():
+    """Empties s3 bucket"""
+
+    s3_bucket = s3_resource.Bucket(S3_BUCKET)
+    s3_bucket.objects.all().delete()
+
+
+def reset_db(seed_file_path: str):
+    with db.engine.begin() as conn:
+        conn.execute(text("""
+            TRUNCATE TABLE photos RESTART IDENTITY CASCADE;
+    """))
+
+    with open(seed_file_path, "r") as f:
+        sql = f.read()
+
+    with db.engine.begin() as conn:
+        conn.execute(text(sql))

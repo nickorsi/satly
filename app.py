@@ -2,12 +2,12 @@ import os
 import requests
 
 from dotenv import load_dotenv
-from flask import Flask, redirect, flash, render_template, url_for, jsonify
+from flask import Flask, abort, redirect, flash, render_template, request, url_for, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.sql.expression import func
 from forms import AddPhotoForm, EditPhotoForm
 from PIL import Image
-from helpers import s3_upload
+from helpers import reset_db, s3_upload, s3_empty_bucket
 from datetime import datetime
 from urllib.parse import quote_plus
 from models import db, connect_db, Photo
@@ -23,6 +23,7 @@ USER = os.getenv('user')
 HOST = os.getenv('host')
 PORT = os.getenv('port')
 DBNAME = os.getenv('dbname')
+SECRET_TOKEN = os.getenv('SECRET_TOKEN')
 DATA_BASE_URL = f"postgresql+psycopg2://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}?sslmode=require"
 
 app = Flask(__name__)
@@ -153,3 +154,20 @@ def add_photo():
         # TODO: Redirect back to photos with flashed message
 
     return render_template("add_photo.html", form=form)
+
+@app.post("/reset")
+def reset_site():
+    token = request.headers.get("X-Reset-Token")
+
+    if not token or token != SECRET_TOKEN:
+        abort(403)
+
+    s3_empty_bucket()
+
+    for dirpath, dirnames, filenames in  os.walk('static/start_images'):
+        for filename in filenames:
+            file_path = os.path.join(dirpath, filename)
+
+            s3_upload(file_path, f'display_{filename}')
+
+            reset_db("./seedNO.sql")
