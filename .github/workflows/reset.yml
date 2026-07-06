@@ -1,4 +1,4 @@
-name: Ping Healthcheck
+name: Site Reset Action
 # Updated 2026-06-20
 
 on:
