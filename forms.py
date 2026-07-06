@@ -25,7 +25,7 @@ class AddPhotoForm(FlaskForm):
         validators=[
             InputRequired(),
             FileAllowed(['jpg', 'jpeg', 'png'], "Only Jpeg or PNG allowed!"),
-            FileSize(15000)
+            FileSize(3000000)
         ]
     )
 
