@@ -12,7 +12,8 @@ jobs:
 
     steps:
       - name: Reset Site
-        env: SECRET_TOKEN: ${{secrets.SECRET_TOKEN}}
+        env:
+          SECRET_TOKEN: ${{secrets.SECRET_TOKEN}}
         run: |
           curl -H "X-Reset-Token: $SECRET_TOKEN" --max-time 90 --fail --silent --show-error \
           https://nick-orsi-warbler.onrender.com/healthcheck
