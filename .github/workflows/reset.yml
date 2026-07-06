@@ -9,7 +9,7 @@ on:
 jobs:
   ping:
     runs-on: ubuntu-latest
-
+    environment: SALTLY_ENV
     steps:
       - name: Reset Site
         env:
