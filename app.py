@@ -19,6 +19,7 @@ AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 S3_BUCKET = os.getenv('S3_BUCKET')
 BASE_URL = f'https://{S3_BUCKET}.s3.us-west-1.amazonaws.com'
 DATA_BASE_URL = os.getenv('DATA_BASE_URL')
+SECRET_TOKEN = os.getenv('SECRET_TOKEN')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = AWS_SECRET_ACCESS_KEY
