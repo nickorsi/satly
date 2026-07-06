@@ -15,5 +15,5 @@ jobs:
         env:
           SECRET_TOKEN: ${{secrets.SECRET_TOKEN}}
         run: |
-          curl -H "X-Reset-Token: $SECRET_TOKEN" --max-time 90 --fail --silent --show-error \
+          curl -X POST -H "X-Reset-Token: $SECRET_TOKEN" --max-time 90 --fail --silent --show-error \
           https://saltly.onrender.com/reset
