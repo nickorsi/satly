@@ -42,11 +42,6 @@ def s3_empty_bucket():
 
 
 def reset_db(seed_file_path: str):
-    with db.engine.begin() as conn:
-        conn.execute(text("""
-            TRUNCATE TABLE photos RESTART IDENTITY CASCADE;
-    """))
-
     with open(seed_file_path, "r") as f:
         sql = f.read()
 
