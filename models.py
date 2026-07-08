@@ -10,6 +10,8 @@ class Photo(db.Model):
 
     __tablename__ = 'photos'
 
+    __table_args__ = {'schema': 'public'}
+
     id = db.Column(
         db.Integer,
         primary_key=True,
