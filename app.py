@@ -158,11 +158,13 @@ def reset_site():
         abort(403)
 
     s3_empty_bucket()
+    reset_db("./resetSeed.sql")
 
-    for dirpath, dirnames, filenames in  os.walk('static/start_images'):
+    for dirpath, dirnames, filenames in  os.walk('static/starter_images'):
+        print("Entered for loop")
         for filename in filenames:
             file_path = os.path.join(dirpath, filename)
 
             s3_upload(file_path, f'display_{filename}')
 
-            reset_db("./seedNO.sql")
+    return jsonify({"status": "success", "message": "Site reset complete"}), 200
